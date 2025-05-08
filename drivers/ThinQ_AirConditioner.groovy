@@ -9,7 +9,7 @@ import groovy.transform.Field
 import groovy.json.JsonSlurper
 
 @Field List<String> LOG_LEVELS = ["error", "warn", "info", "debug", "trace"]
-@Field String DEFAULT_LOG_LEVEL = LOG_LEVELS[2]
+@Field String DEFAULT_LOG_LEVEL = LOG_LEVELS[4]
 
 metadata {
     definition(name: "LG ThinQ AirConditioner", namespace: "dcm.thinq", author: "Jean Bilodeau") {
@@ -68,11 +68,15 @@ def initialize() {
 }
 
 def on() {
+
     result = parent.sendCommand(device, "Set",  "basicCtrl", "airState.operation", 1)
+    sendEvent(name: "switch", value: "on")
 }
 
 def off() {
+
     result = parent.sendCommand(device, "Set",  "basicCtrl", "airState.operation", 0)
+    sendEvent(name: "switch", value: "off")
 }
 
 def decreaseTarget() {
